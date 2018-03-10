@@ -10,18 +10,19 @@ services:
         package: api
     command: ["/go/bin/api"]
     environment:
+      - DB_URL=postgres://cufeed@postgres/cufeed?sslmode=disable
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
       - DATABASE_NAME=cufeed
       - DATABASE_USER=cufeed
       - DATABASE_PASS=cufeed
-      - PORT=8001
+      - PORT=8002
     links:
-      - db 
+      - postgres:postgres
     ports:
       - "8002:8002"
 
-  db:
+  postgres:
     container_name: cufeedback_postgres
     image: cufeedback/postgres
     build: postgres
