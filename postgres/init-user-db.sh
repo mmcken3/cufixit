@@ -15,3 +15,4 @@ EOSQL
 
 psql -d $DB_NAME -U $DB_USER < ./migrations/V1__feedback.sql
 psql -d $DB_NAME -U $DB_USER < ./migrations/V2__buildings.sql
+psql -d $DB_NAME -U $DB_USER < ./migrations/V3__types.sql

@@ -19,12 +19,15 @@ func main() {
 	}
 
 	err = db.CreateFeedback(cufixit.Feedback{
-		ID:          1,
-		UserName:    "mmcken3",
-		Type:        "Broken Table",
+		ID:       1,
+		UserName: "mmcken3",
+		Type: cufixit.Type{
+			ID:      0,
+			Type:    "Housing",
+			Contact: "",
+		},
 		Location:    "Hardin Hall",
 		Description: "A table in room 213 of Hardin Hall is broken.",
-		Email:       "facilities.email",
 		PhoneNumber: "843-124-3258",
 		ImageURL:    "ins3.com",
 		Building: cufixit.Building{
