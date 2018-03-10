@@ -14,3 +14,4 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname="$DB_NAME" <<-EOSQL
 EOSQL
 
 psql -d $DB_NAME -U $DB_USER < ./migrations/V1__feedback.sql
+psql -d $DB_NAME -U $DB_USER < ./migrations/V2__buildings.sql
