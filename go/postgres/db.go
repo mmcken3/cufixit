@@ -19,7 +19,6 @@ type DB struct {
 // CreateDB connects to a Postgres database.
 func CreateDB() (*DB, error) {
 	dataSource := os.Getenv("DB_URL")
-	fmt.Printf("Endpoint: %v\n", dataSource)
 	conn, err := sqlx.Open("postgres", dataSource)
 	if err != nil {
 		return nil, errors.Wrapf(err, "Error creating db")

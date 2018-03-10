@@ -8,7 +8,7 @@ services:
       dockerfile: go/Dockerfile
       args:
         package: api
-    command: ["/go/bin/api"]
+    command: ["./wait-for-postgres.sh", "/go/bin/api"]
     environment:
       - DB_URL=postgres://cufix@postgres/cufix?sslmode=disable
       - DATABASE_HOST=postgres
