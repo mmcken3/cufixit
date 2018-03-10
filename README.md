@@ -13,3 +13,5 @@ Work in progress for the CU HackIt hackathon.
 Download the [docker container engine](https://store.docker.com/editions/community/docker-ce-desktop-mac).
 
 If you would like to ensure that your docker engine is working well enough to run the DB, visit this [site](https://docs.docker.com/docker-for-mac/) and go up to step 3. 
+
+Install [GoLang](https://golang.org).
