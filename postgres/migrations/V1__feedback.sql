@@ -1,8 +1,13 @@
+CREATE TABLE building (
+    building_id serial PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
 CREATE TABLE feedback (
     feedback_id serial PRIMARY KEY,
     user_name TEXT NOT NULL,
     type TEXT NOT NULL,
-    building TEXT NOT NULL,
+    building INT REFERENCES building(building_id) NOT NULL,
     location TEXT,
     description TEXT NOT NULL,
     fix_email TEXT NOT NULL,
