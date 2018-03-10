@@ -1,8 +1,8 @@
 version: '2'
 services:
   api:
-    container_name: cufeedback_api
-    image: cufeedback/cmd/api
+    container_name: cufixit_api
+    image: cufixit/cmd/api
     build:
       context: .
       dockerfile: go/Dockerfile
@@ -10,12 +10,12 @@ services:
         package: api
     command: ["/go/bin/api"]
     environment:
-      - DB_URL=postgres://cufeed@postgres/cufeed?sslmode=disable
+      - DB_URL=postgres://cufix@postgres/cufix?sslmode=disable
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
-      - DATABASE_NAME=cufeed
-      - DATABASE_USER=cufeed
-      - DATABASE_PASS=cufeed
+      - DATABASE_NAME=cufix
+      - DATABASE_USER=cufix
+      - DATABASE_PASS=cufix
       - PORT=8002
     links:
       - postgres:postgres
@@ -23,11 +23,11 @@ services:
       - "8002:8002"
 
   postgres:
-    container_name: cufeedback_postgres
-    image: cufeedback/postgres
+    container_name: cufixit_postgres
+    image: cufixit/postgres
     build: postgres
     environment:
-      - DB_USER=cufeed
-      - DB_NAME=cufeed
+      - DB_USER=cufix
+      - DB_NAME=cufix
     ports:
       - '5432:5432'     

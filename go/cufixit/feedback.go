@@ -1,4 +1,4 @@
-package cufeedback
+package cufixit
 
 import "time"
 

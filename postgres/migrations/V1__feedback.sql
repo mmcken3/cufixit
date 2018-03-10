@@ -7,7 +7,7 @@ CREATE TABLE feedback (
     feedback_id serial PRIMARY KEY,
     user_name TEXT NOT NULL,
     type TEXT NOT NULL,
-    building INT REFERENCES building(building_id) NOT NULL,
+    building_id INT REFERENCES building(building_id) NOT NULL,
     location TEXT,
     description TEXT NOT NULL,
     fix_email TEXT NOT NULL,

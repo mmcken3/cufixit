@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mmcken3/cufeedback/go/cufeedback"
+	"github.com/mmcken3/cufeedback/go/cufixit"
 
 	"github.com/gorilla/mux"
 	"github.com/mmcken3/cufeedback/go/postgres"
@@ -18,14 +18,14 @@ func main() {
 		return
 	}
 
-	err = db.CreateFeedback(cufeedback.Feedback{
+	err = db.CreateFeedback(cufixit.Feedback{
 		ID:          1,
 		UserName:    "mmcken3",
 		Type:        "Broken Table",
 		Location:    "Hardin Hall",
 		Description: "A table in room 213 of Hardin Hall is broken.",
 		Email:       "facilities.email",
-		Building: cufeedback.Building{
+		Building: cufixit.Building{
 			ID:   1,
 			Name: "Hardin Hall",
 		},
@@ -33,6 +33,14 @@ func main() {
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		return
+	}
+	feedback, err := db.GetAllFeedback()
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return
+	}
+	for _, f := range feedback {
+		fmt.Printf("Feedback: %v\n", f)
 	}
 	db.Close()
 	router := mux.NewRouter()
