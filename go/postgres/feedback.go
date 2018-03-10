@@ -15,10 +15,10 @@ func (db *DB) CreateFeedback(fb cufixit.Feedback) error {
 			return err
 		}
 		params = append(params, fb.UserName, fb.Type, bID, fb.Location,
-			fb.Description, fb.Email, fb.PhoneNumber)
+			fb.Description, fb.Email, fb.PhoneNumber, fb.ImageURL)
 		query := `
 		INSERT INTO feedback (user_name, type, building_id, location,
-		description, fix_email, phone_number) VALUES ` + buildValues(7)
+		description, fix_email, phone_number, image_url) VALUES ` + buildValues(8)
 		_, err = tx.Exec(query, params...)
 		return errors.Wrapf(err, "Error inserting the feedback into the database.")
 	})
@@ -47,6 +47,7 @@ func (db *DB) GetAllFeedback() ([]cufixit.Feedback, error) {
 				description, 
 				fix_email, 
 				phone_number,
+				image_url,
 				updated_at,
 				b.building_id "building.building_id"
 			FROM feedback f INNER JOIN 

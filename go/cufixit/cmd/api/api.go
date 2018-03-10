@@ -26,6 +26,7 @@ func main() {
 		Description: "A table in room 213 of Hardin Hall is broken.",
 		Email:       "facilities.email",
 		PhoneNumber: "843-124-3258",
+		ImageURL:    "ins3.com",
 		Building: cufixit.Building{
 			ID:   1,
 			Name: "Hardin Hall",
