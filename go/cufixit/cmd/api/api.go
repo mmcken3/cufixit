@@ -1,17 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/mmcken3/cufixit/go/cufixit"
-
 	"github.com/gorilla/mux"
-	"github.com/mmcken3/cufixit/go/postgres"
 )
 
 func main() {
+	router := mux.NewRouter()
+
+	router.HandleFunc("/", GetIndex).Methods("GET")
+	router.HandleFunc("/v1/submit", SubmitFixIt).Methods("POST")
+
+	log.Fatal(http.ListenAndServe(":8002", router))
+}
+
+/*
 	db, err := postgres.CreateDB()
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
@@ -48,9 +53,4 @@ func main() {
 		fmt.Printf("Feedback: %v\n", f)
 	}
 	db.Close()
-	router := mux.NewRouter()
-
-	router.HandleFunc("/", GetIndex).Methods("GET")
-
-	log.Fatal(http.ListenAndServe(":8002", router))
-}
+*/
