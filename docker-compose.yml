@@ -1,0 +1,32 @@
+version: '2'
+services:
+  api:
+    container_name: cufeedback_api
+    image: cufeedback/cmd/api
+    build:
+      context: .
+      dockerfile: go/Dockerfile
+      args:
+        package: api
+    command: ["/go/bin/api"]
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=cufeed
+      - DATABASE_USER=cufeed
+      - DATABASE_PASS=cufeed
+      - PORT=8001
+    links:
+      - db 
+    ports:
+      - "8002:8002"
+
+  db:
+    image: postgres:9.6
+    volumes:
+      - $PWD/postgres:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_PASSWORD=cufeed
+      - POSTGRES_USER=cufeed
+    ports:
+      - '5432:5432'     
