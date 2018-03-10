@@ -12,3 +12,5 @@ echo "Loading extensions into $DB_NAME"
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname="$DB_NAME" <<-EOSQL
     CREATE EXTENSION fuzzystrmatch;
 EOSQL
+
+psql -d $DB_NAME -U $DB_USER < ./migrations/V1__feedback.sql

@@ -22,11 +22,11 @@ services:
       - "8002:8002"
 
   db:
-    image: postgres:9.6
-    volumes:
-      - $PWD/postgres:/docker-entrypoint-initdb.d
+    container_name: cufeedback_postgres
+    image: cufeedback/postgres
+    build: postgres
     environment:
-      - POSTGRES_PASSWORD=cufeed
-      - POSTGRES_USER=cufeed
+      - DB_USER=cufeed
+      - DB_NAME=cufeed
     ports:
       - '5432:5432'     
