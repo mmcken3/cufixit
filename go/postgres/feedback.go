@@ -2,7 +2,7 @@ package postgres
 
 import (
 	"github.com/jmoiron/sqlx"
-	"github.com/mmcken3/cufeedback/go/cufixit"
+	"github.com/mmcken3/cufixit/go/cufixit"
 	"github.com/pkg/errors"
 )
 

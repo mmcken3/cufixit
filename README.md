@@ -1,4 +1,4 @@
-# Clemson University Feedback
+# Clemson University Fix It
 
 An application where people in Clemson can go to report any feedback they have about the university. They can see issues with facilities
 like a broken light, broken water fountain and then report it to the University Facilities for maintaince through one single application.

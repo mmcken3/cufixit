@@ -5,10 +5,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/mmcken3/cufeedback/go/cufixit"
+	"github.com/mmcken3/cufixit/go/cufixit"
 
 	"github.com/gorilla/mux"
-	"github.com/mmcken3/cufeedback/go/postgres"
+	"github.com/mmcken3/cufixit/go/postgres"
 )
 
 func main() {

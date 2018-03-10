@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/mmcken3/cufeedback/go",
+	"ImportPath": "github.com/mmcken3/cufixit/go",
 	"GoVersion": "go1.9",
 	"GodepVersion": "v79",
 	"Packages": [
