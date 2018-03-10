@@ -10,6 +10,7 @@ type Feedback struct {
 	Location    string    `db:"location" json:"location"`
 	Description string    `db:"description" json:"description"`
 	Email       string    `db:"fix_email" json:"fix_email"`
+	PhoneNumber string    `db:"phone_number" json:"phone_number"`
 	UpdatedAt   time.Time `db:"updated_at" json:"updated_at"`
 	Building    `db:"building" json:"building"`
 }

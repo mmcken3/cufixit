@@ -11,6 +11,7 @@ CREATE TABLE feedback (
     location TEXT,
     description TEXT NOT NULL,
     fix_email TEXT NOT NULL,
+    phone_number TEXT NOT NULL,
     updated_at timestamptz
 );
 
