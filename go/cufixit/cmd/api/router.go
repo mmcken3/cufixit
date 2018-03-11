@@ -58,12 +58,12 @@ func SubmitFixIt(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	email := cufixit.Email{
-		UserName:    "mitchell.mckenzie95@gmail.com",
+		UserName:    os.Getenv("EMAIL"),
 		Password:    os.Getenv("EMAIL_PASS"),
 		Server:      "smtp.gmail.com",
 		Port:        "587",
 		SendTo:      []string{em},
-		FromAddress: "mitchell.mckenzie95@gmail.com",
+		FromAddress: os.Getenv("EMAIL"),
 		Feedback:    fixItFeedback,
 	}
 	err = email.SendEmail()
