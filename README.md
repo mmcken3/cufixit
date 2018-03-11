@@ -16,7 +16,7 @@ We have developed a react-native mobile application for submitting the request t
 
 # CUFixIt API
 
-This api is accessible through Amazon ECS at http://54.211.84.167:8002/.
+This api is accessible through Amazon ECS at http://34.204.172.63:8002/.
 
 HTTP request | Description
 ------------ | ------------- 
