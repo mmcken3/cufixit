@@ -9,6 +9,8 @@ import ModalDropdown from 'react-native-modal-dropdown';
 var ImagePicker = require('react-native-image-picker');
 
 var build = ['Academic Success Center'  , 'Barre Hall'  , 'Biological Sciences Field Station'  , 'Biosystems Research Complex'  , 'Brooks Center for the Performing Arts'  , 'Cook Engineering Laboratory'  , 'Cooper Library'  , 'Daniel Hall'  , 'Earle Hall'  , 'Edwards Hall'  , 'Endocrine Physiology Laboratory'  , 'Fluor Daniel Engineering'  , 'Innovation Building'  , 'Freeman Hall'  , 'Godfrey Hall'  , 'Godley-Snell Research Center'  , 'Greenhouse Complex'  ,  'Holtzendorff Hall'  , 'Houston Center'  , 'Hunter Chemistry Laboratory'  , 'Jordan Hall'  , 'Kinard Laboratory of Physics'  , 'Lee Hall'  , 'Lehotsky Hall'  , 'Life Sciences Building'  , 'Long Hall'  , 'Lowry Hall'  , 'Martin Hall'  , 'McAdams Hall'  , 'Newman Hall'  , 'Olin Hall'  , 'Poole Agricultural Center'  , 'Rhodes Annex'  , 'Rhodes Engineering Research Center'  , 'Riggs Hall'  , 'Sirrine Hall'  , 'Smith Building for Sonoco Institute of Packaging Design and Graphics'  , 'Strode Tower'  , 'Strom Thurmond Institute'  , 'Tillman Hall'  , 'Vickery Hall'  , 'Watt Family Innovation Center'  , 'Administrative Services Building'  , 'Alumni Center'  , 'Brackett Hall'  , 'Central Energy Facility'  , 'Clemson University Foundation/Shirley Center for Philanthropy'  , 'Dillard Building'  , 'Fire Station'  , 'Gentry Hall'  , 'Harcombe Hall'  , 'Kite Hill Recycling Center'  , 'Littlejohn House'  , 'Maintenance Stores'  , 'Mell Hall'  , 'Motor Pool'  , 'National Dropout Prevention Center'  , 'Parking and Transportation Services'  , 'Police Department'  , 'President’s Home'  , 'Sikes Hall'  , 'Trustee House'  , 'University Facilities Offices'  , 'Clemson Memorial Stadium and Frank Howard Field'  , 'Football Practice Facility'  , 'IPTAY/Ticket Office'  , 'Jervey Athletic Center'  , 'Littlejohn Coliseum'  , 'McFadden Building'  , 'Riggs Field (Soccer Stadium)'  , 'Sloan Tennis Center'  , 'Tiger Field (Kingsmore Baseball Stadium)'  , 'Cooper Library (Cooper Café)'  , 'Fernow Street Café (Chick-Fil-A®)'  , 'Hendrix Student Center (Hendrix Food Court, Einstein Bros® and P.O.D. Market)'  , 'Madren Center (Solé on the Green Restaurant)'  , 'Schilletter Dining Hall (Wendy’s®)'  , 'Watt Café'  , 'Barnett Hall'  , 'Benet Hall'  , 'Bowen Hall'  , 'Bradley Hall'  , 'Byrnes Hall'  , 'Calhoun Courts Apartments'  , 'Cope Hall'  , 'Core Campus'  , 'Donaldson Hall'  , 'Geer Hall'  , 'Holmes Hall'  , 'Johnstone Hall'  , 'Lever Hall'  , 'Lightsey Bridge I Apartments'  , 'Lightsey Bridge II Apartments'  , 'Manning Hall'  , 'Mauldin Hall'  , 'McCabe Hall'  , 'Norris Hall'  , 'Sanders Hall'  , 'Simpson Hall North'  , 'Simpson Hall South'  , 'Smith Hall'  , 'Stadium Suites'  , 'Thornhill Village Apartments'  , 'Wannamaker Hall'  , 'Young Hall'  , 'Barnes Center'  , 'Fike Recreation Center'  , 'Hendrix Student Center'  , 'Redfern Health Center'  , 'Union Station'  , 'University Union, Edgar Brown'  , 'Botanical Gardens'  , 'Brooks Center for the Performing Arts'  , 'Campbell Carriage House Coffee and Gift Shop'  , 'Campbell Geology Museum'  , 'Campbell Museum of Natural History'  , 'Carillon Garden'  , 'Class of 1957 Rotunda'  , 'Class of 1960 North Green'  , 'Clemson, Thomas Green Statue (Gantt Circle)'  , 'Cox Plaza'  , 'Fort Hill (Calhoun and Clemson Mansion)'  , 'Fran Hanson Discovery Center'  , 'Lee Hall (Lee Art Gallery)'  , 'Madren Center'  , 'Martin Inn'  , 'Military Heritage Plaza'  , 'Outdoor Theatre (Amphitheater)'  , 'Reunion Square'  , 'Scroll of Honor Memorial'  , 'Visitors Center, Class of 1944'  , 'Walker Golf Course Clubhouse'  , 'Woodland Cemeter'];
+
+var cat = ['Housing','Facilities','Accessibility','Dining','Student Affairs','Other','Testing'];
 var options = {
   title: 'Select Avatar',
   customButtons: [
@@ -58,38 +60,48 @@ class LoginScreen extends React.Component {
 class ReportScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {user_name:'', building: '', description: '', phone_number: '',image_url:'',type:'', avatarSource: ''};
+    this.state = {user_name:'', building: '', description: '', phone_number: '',image_url:'',type:''};
 
   //  this._onPress = this._onPress.bind(this);
   }
-  updateUser = (building) => {
-     this.setState({ building: building })
+  updateUser = (building_name) => {
+     this.setState({ building_name: building_name })
   }
   handleSubmit = () => {
     var localType;
-    fileType(this.state.avatarSource.uri).then((type) => {
+    fileType(this.state.image_url).then((type) => {
       localType = type.mime;
     });
 
     const file = {
-      uri: this.state.avatarSource.uri,
-      name: this.state.avatarSource.uri,
+      uri: this.state.image_url,
+      name: this.state.image_url,
       type: "image/png"
     }
 
     //TODO: Mitchell pls help
     const options = {
       keyPrefix: "uploads/",
-      bucket: "your-bucket",
+      bucket: "cufixit-images",
       region: "us-east-1",
-      accessKey: "your-access-key",
-      secretKey: "your-secret-key",
+      accessKey: "AKIAIBGZ7GOBX46RSJ5A",
+      secretKey: "MfE0yb1H1qpLn3LwS4F9r96ACpdvKyQFlYZOirkK",
       successActionStatus: 201
     }
     RNS3.put(file, options).then(response => {
       if (response.status !== 201)
         throw new Error("Failed to upload image to S3");
-      console.log(response.body);
+      else {
+      this.setState({image_url: response.body.postResponse.location});
+      fetch('http://54.211.84.167:8002/v1/submit', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.state),
+          });
+    }
     });
   }
 
@@ -117,10 +129,15 @@ class ReportScreen extends React.Component {
           onChangeText={(text) => this.setState({phone_number: text})}/>
         <Text>Building</Text>
         <ModalDropdown options={build}
-        onSelect={text => this.setState({building: build[text]})}/>
-        <Button block>
+        onSelect={text => this.setState({building_name: build[text]})}/>
+        <Text>Type</Text>
+        <ModalDropdown options={cat}
+        onSelect={text =>this.setState({type: cat[text]})}/>
+        <Button block
+                    onPress={this.handleSubmit.bind(this)}>
           <Text>Submit</Text>
           </Button>
+          <Text>{this.state.image_url}</Text>
         </Content>
       </Container>
     )
@@ -137,12 +154,11 @@ upload = () => {
       console.log('ImagePicker Error: ', response.error);
     }
     else {
-      let source = { uri: response.uri };
       //console.log(source);
       // You can also display the image using data:
        //let source = { uri: 'data:image/jpeg;base64,' + response.data };
       this.setState({
-        avatarSource: source
+        image_url: response.uri
       });
     }
   });
@@ -159,8 +175,8 @@ const styles = StyleSheet.create({
   image: {
 //    flex: 1,
   //padding-top:100,
-    width: 400,
-    height: 500,
+    width: 275,
+    height: 400,
     resizeMode: 'contain',
 }
 });
