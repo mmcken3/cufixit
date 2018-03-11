@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 
@@ -42,6 +43,12 @@ func SubmitFixIt(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Error storing to database. %v\n", err)
 		w.WriteHeader(http.StatusBadRequest)
 	}
+	em, err := db.GetTypeContact(fixItFeedback.Type)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Printf("Error getting contact from database. %v\n", err)
+		return
+	}
 	err = db.Close()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -50,6 +57,20 @@ func SubmitFixIt(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	email := cufixit.Email{
+		UserName:    "mitchell.mckenzie95@gmail.com",
+		Password:    os.Getenv("EMAIL_PASS"),
+		Server:      "smtp.gmail.com",
+		Port:        "587",
+		SendTo:      []string{em},
+		FromAddress: "mitchell.mckenzie95@gmail.com",
+		Feedback:    fixItFeedback,
+	}
+	err = email.SendEmail()
+	if err != nil {
+		log.Printf("Error sending email. %v\n", err)
+		return
+	}
 }
 
 // GetAllFeedback request all of the feedback in the DB as a json array.

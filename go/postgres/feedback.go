@@ -42,7 +42,18 @@ func (db *DB) GetTypeID(t cufixit.Type, tx *sqlx.Tx) (int, error) {
 	var tID []int
 	err := tx.Select(&tID, `
 		SELECT DISTINCT ON (type_id) type_id FROM type WHERE type = '`+t.Type+`'`)
-	return tID[0], errors.Wrapf(err, "Error getting ID from buildings table.")
+	return tID[0], errors.Wrapf(err, "Error getting ID from type table.")
+}
+
+// GetTypeContact gets the building ID from the entered name.
+func (db *DB) GetTypeContact(t cufixit.Type) (string, error) {
+	var tC []string
+	err := db.Transact(func(tx *sqlx.Tx) error {
+		err := tx.Select(&tC, `
+		SELECT DISTINCT ON (type_id) contact FROM type WHERE type = '`+t.Type+`'`)
+		return err
+	})
+	return tC[0], errors.Wrapf(err, "Error getting Contact from type table.")
 }
 
 // GetAllFeedback gets all of the feedback from the table and returns it as a slice.
