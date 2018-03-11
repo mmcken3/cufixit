@@ -12,7 +12,9 @@ and there is a long set of directions on how to use it. We hope that CUFixIt can
 that is simple and easy to use. 
 
 # Getting Started
-We have developed a react-native mobile application for submitting the request to the university. Login to the add, upload or take a picture, add a description, select type of issue and description then you are ready to submit. 
+We have developed a react-native mobile application for submitting the request to the university. Login to the add, upload or take a picture, add a description, select type of issue and description then you are ready to submit. Once someone has submitted a request the type of issue, building
+where the issue is, image they chose, and their user name will be submitted to the database. The application will then determine based off of 
+the building and type of issue who to contact and will email the contact for that issue type with all of the information.
 
 # CUFixIt API
 
@@ -36,6 +38,12 @@ We have created an image store using Amazon S3 in order to store all of the imag
 image the selected or took is uploaded to S3 and the url or the location is stored into the DB.
 
 # Getting Started For Development
+
+## API Development
+Start the docker containers by running `docker-compose build` and then `docker-compose up`.
+
+## React Development
+Start the react-native app by running `react-native run-ios`.
 
 ## Tools Used
 Golang 1.9
