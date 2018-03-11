@@ -17,10 +17,14 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "content-type": "^1.0.4",
     "native-base": "^2.3.10",
     "react": "16.2.0",
     "react-native": "0.52.0",
+    "react-native-aws3": "0.0.8",
+    "react-native-file-type": "0.0.2",
     "react-native-image-picker": "^0.26.7",
+    "react-native-modal-dropdown": "^0.6.2",
     "react-navigation": "^1.5.1",
     "react-router-native": "^4.2.0"
   }
