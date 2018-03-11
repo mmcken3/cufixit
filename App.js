@@ -108,7 +108,7 @@ class ReportScreen extends React.Component {
         onPress= {this.upload.bind(this)}>
         <Text>Attach a File</Text>
         </Button>
-        </Text>User Name</Text>
+        <Text>User Name</Text>
         <TextInput
           onChangeText={(text) => this.setState({user_name: text})}/>
         <Text>Description</Text>
@@ -120,8 +120,7 @@ class ReportScreen extends React.Component {
         <Text>Building</Text>
         <ModalDropdown options={build}
         onSelect={text => this.setState({building: build[text]})}/>
-        <Text>{this.state.building}</Text>
-        <Button block
+        <Button block>
           <Text>Submit</Text>
           </Button>
         </Content>
