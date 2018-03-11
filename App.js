@@ -137,7 +137,6 @@ class ReportScreen extends React.Component {
                     onPress={this.handleSubmit.bind(this)}>
           <Text>Submit</Text>
           </Button>
-          <Text>{this.state.image_url}</Text>
         </Content>
       </Container>
     )
