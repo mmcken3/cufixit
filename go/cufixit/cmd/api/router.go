@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
+
 	"github.com/mmcken3/cufixit/go/cufixit"
 	"github.com/mmcken3/cufixit/go/postgres"
 )
@@ -60,6 +62,111 @@ func GetAllFeedback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	feedback, err := db.GetAllFeedback()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error getting from database. %v\n", err)
+		return
+	}
+	err = db.Close()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error closing database. %v\n", err)
+		return
+	}
+
+	respondJSON, err := json.Marshal(feedback)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error marshalling json. %v\n", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(respondJSON)
+}
+
+// GetFeedbackofType request all of the feedback in the DB as a json array.
+func GetFeedbackofType(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	w.Header().Set("Content-Type", "application/json")
+	db, err := postgres.CreateDB()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error starting database. %v\n", err)
+		return
+	}
+	feedback, err := db.GetFeedbackofType(vars["type"])
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error getting from database. %v\n", err)
+		return
+	}
+	err = db.Close()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error closing database. %v\n", err)
+		return
+	}
+
+	respondJSON, err := json.Marshal(feedback)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error marshalling json. %v\n", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(respondJSON)
+}
+
+// GetFeedbackofBuilding request all of the feedback in the DB as a json array.
+func GetFeedbackofBuilding(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	w.Header().Set("Content-Type", "application/json")
+	db, err := postgres.CreateDB()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error starting database. %v\n", err)
+		return
+	}
+	feedback, err := db.GetFeedbackofBuilding(vars["building"])
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error getting from database. %v\n", err)
+		return
+	}
+	err = db.Close()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error closing database. %v\n", err)
+		return
+	}
+
+	respondJSON, err := json.Marshal(feedback)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error marshalling json. %v\n", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(respondJSON)
+}
+
+// GetFeedbackofUser request all of the feedback in the DB as a json array.
+func GetFeedbackofUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	w.Header().Set("Content-Type", "application/json")
+	db, err := postgres.CreateDB()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error starting database. %v\n", err)
+		return
+	}
+	feedback, err := db.GetFeedbackofUser(vars["user"])
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		log.Panicf("Error getting from database. %v\n", err)

@@ -71,3 +71,84 @@ func (db *DB) GetAllFeedback() ([]cufixit.Feedback, error) {
 	})
 	return feedback, err
 }
+
+// GetFeedbackofType gets all of the feedback from the table of passed type and returns it as a slice.
+func (db *DB) GetFeedbackofType(t string) ([]cufixit.Feedback, error) {
+	var feedback []cufixit.Feedback
+	err := db.Transact(func(tx *sqlx.Tx) error {
+		err := tx.Select(&feedback, `
+			SELECT 
+				feedback_id, 
+				user_name, 
+				t.type_id "type.type_id",
+				type "type.type", 
+				contact "type.contact",
+				name "building.name",
+				description, 
+				phone_number,
+				image_url,
+				updated_at,
+				b.building_id "building.building_id"
+			FROM feedback f INNER JOIN 
+			building b ON 
+			f.building_id = b.building_id
+			INNER JOIN type t ON
+			f.type_id = t.type_id WHERE t.type = '`+t+`'`)
+		return errors.Wrapf(err, "Error getting ID from buildings table.")
+	})
+	return feedback, err
+}
+
+// GetFeedbackofBuilding gets all of the feedback from the table of passed building and returns it as a slice.
+func (db *DB) GetFeedbackofBuilding(b string) ([]cufixit.Feedback, error) {
+	var feedback []cufixit.Feedback
+	err := db.Transact(func(tx *sqlx.Tx) error {
+		err := tx.Select(&feedback, `
+			SELECT 
+				feedback_id, 
+				user_name, 
+				t.type_id "type.type_id",
+				type "type.type", 
+				contact "type.contact",
+				name "building.name",
+				description, 
+				phone_number,
+				image_url,
+				updated_at,
+				b.building_id "building.building_id"
+			FROM feedback f INNER JOIN 
+			building b ON 
+			f.building_id = b.building_id
+			INNER JOIN type t ON
+			f.type_id = t.type_id WHERE b.name = '`+b+`'`)
+		return errors.Wrapf(err, "Error getting ID from buildings table.")
+	})
+	return feedback, err
+}
+
+// GetFeedbackofUser gets all of the feedback from the table of passed building and returns it as a slice.
+func (db *DB) GetFeedbackofUser(u string) ([]cufixit.Feedback, error) {
+	var feedback []cufixit.Feedback
+	err := db.Transact(func(tx *sqlx.Tx) error {
+		err := tx.Select(&feedback, `
+			SELECT 
+				feedback_id, 
+				user_name, 
+				t.type_id "type.type_id",
+				type "type.type", 
+				contact "type.contact",
+				name "building.name",
+				description, 
+				phone_number,
+				image_url,
+				updated_at,
+				b.building_id "building.building_id"
+			FROM feedback f INNER JOIN 
+			building b ON 
+			f.building_id = b.building_id
+			INNER JOIN type t ON
+			f.type_id = t.type_id WHERE f.user_name = '`+u+`'`)
+		return errors.Wrapf(err, "Error getting ID from buildings table.")
+	})
+	return feedback, err
+}
