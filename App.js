@@ -77,13 +77,11 @@ class ReportScreen extends React.Component {
       type: "image/png"
     }
 
-    var obj = contentType.parse('img/png+jpg; charset=utf-8');
     //TODO: Mitchell pls help
     const options = {
       keyPrefix: "uploads/",
       bucket: "your-bucket",
       region: "us-east-1",
-      contentType: obj,
       accessKey: "your-access-key",
       secretKey: "your-secret-key",
       successActionStatus: 201
