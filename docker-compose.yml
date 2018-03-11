@@ -4,8 +4,8 @@ services:
     container_name: cufixit_api
     image: cufixit/cmd/api
     build:
-      context: .
-      dockerfile: go/Dockerfile
+      context: ./go
+      dockerfile: Dockerfile
       args:
         package: api
     command: ["./wait-for-postgres.sh", "/go/bin/api"]
