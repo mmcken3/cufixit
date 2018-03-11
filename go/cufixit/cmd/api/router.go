@@ -18,39 +18,75 @@ func GetIndex(w http.ResponseWriter, r *http.Request) {
 
 // SubmitFixIt parses json from client and saves feedback to the DB.
 func SubmitFixIt(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var userSubmit fixItSubmit
 	err := json.NewDecoder(r.Body).Decode(&userSubmit)
 	if err != nil {
-		// Send error json back
-		log.Panicf("Error decoding submit from json. %v\n", err)
+		w.WriteHeader(http.StatusBadRequest)
+		log.Printf("Error decoding submit from json. %v\n", err)
+		return
 	}
 
 	fixItFeedback := transformToFeedback(userSubmit)
 	db, err := postgres.CreateDB()
 	if err != nil {
-		// Send error json back
-		log.Panicf("Error starting database. %v\n", err)
+		w.WriteHeader(http.StatusBadRequest)
+		log.Printf("Error starting database. %v\n", err)
+		return
 	}
 	err = db.CreateFeedback(fixItFeedback)
 	if err != nil {
-		// Send error json back
-		log.Panicf("Error storing to database. %v\n", err)
+		w.WriteHeader(http.StatusBadRequest)
+		log.Printf("Error storing to database. %v\n", err)
+		w.WriteHeader(http.StatusBadRequest)
 	}
 	err = db.Close()
 	if err != nil {
-		// Send error json back
-		log.Panicf("Error closing database. %v\n", err)
+		w.WriteHeader(http.StatusBadRequest)
+		log.Printf("Error closing database. %v\n", err)
+		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+}
+
+// GetAllFeedback request all of the feedback in the DB as a json array.
+func GetAllFeedback(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	db, err := postgres.CreateDB()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error starting database. %v\n", err)
+		return
+	}
+	feedback, err := db.GetAllFeedback()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error getting from database. %v\n", err)
+		return
+	}
+	err = db.Close()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error closing database. %v\n", err)
+		return
+	}
+
+	respondJSON, err := json.Marshal(feedback)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Panicf("Error marshalling json. %v\n", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(respondJSON)
 }
 
 type fixItSubmit struct {
 	UserName     string `json:"user_name"`
 	Type         string `json:"type"`
 	BuildingName string `json:"building_name"`
-	Location     string `json:"location"`
 	Description  string `json:"description"`
 	PhoneNumber  string `json:"phone_number"`
 	ImageURL     string `json:"image_url"`
@@ -60,7 +96,6 @@ func transformToFeedback(f fixItSubmit) cufixit.Feedback {
 	var fb cufixit.Feedback
 
 	fb.UserName = f.UserName
-	fb.Location = f.Location
 	fb.Description = f.Description
 	fb.PhoneNumber = f.PhoneNumber
 	fb.ImageURL = f.ImageURL

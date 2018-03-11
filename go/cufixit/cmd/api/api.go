@@ -11,6 +11,7 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", GetIndex).Methods("GET")
+	router.HandleFunc("/v1/getall", GetAllFeedback).Methods("GET")
 	router.HandleFunc("/v1/submit", SubmitFixIt).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8002", router))

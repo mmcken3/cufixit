@@ -18,11 +18,11 @@ func (db *DB) CreateFeedback(fb cufixit.Feedback) error {
 		if err != nil {
 			return err
 		}
-		params = append(params, fb.UserName, tID, bID, fb.Location,
+		params = append(params, fb.UserName, tID, bID,
 			fb.Description, fb.PhoneNumber, fb.ImageURL)
 		query := `
-		INSERT INTO feedback (user_name, type_id, building_id, location,
-		description, phone_number, image_url) VALUES ` + buildValues(7)
+		INSERT INTO feedback (user_name, type_id, building_id,
+		description, phone_number, image_url) VALUES ` + buildValues(6)
 		_, err = tx.Exec(query, params...)
 		return errors.Wrapf(err, "Error inserting the feedback into the database.")
 	})
@@ -56,8 +56,7 @@ func (db *DB) GetAllFeedback() ([]cufixit.Feedback, error) {
 				t.type_id "type.type_id",
 				type "type.type", 
 				contact "type.contact",
-				name "building.name", 
-				location, 
+				name "building.name",
 				description, 
 				phone_number,
 				image_url,

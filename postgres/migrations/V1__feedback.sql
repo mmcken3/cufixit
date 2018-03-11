@@ -14,7 +14,6 @@ CREATE TABLE feedback (
     user_name TEXT NOT NULL,
     type_id INT REFERENCES type(type_id) NOT NULL,
     building_id INT REFERENCES building(building_id) NOT NULL,
-    location TEXT,
     description TEXT NOT NULL,
     phone_number TEXT NOT NULL,
     image_url TEXT NOT NULL,
