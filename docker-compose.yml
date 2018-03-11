@@ -15,7 +15,7 @@ services:
       - DATABASE_PORT=5432
       - DATABASE_NAME=cufix
       - DATABASE_USER=cufix
-      - PGPASSWORD=
+      - PGPASSWORD=cufix
       - PORT=8002
     links:
       - postgres:postgres
