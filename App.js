@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Image, StyleSheet, AppRegistry, Picker } from 'react-native';
+import { Image, StyleSheet, AppRegistry, TextInput, Picker } from 'react-native';
 import { Container, Header, Content, Form, Body, Item, Input, Button, Label, Title, Text, Thumbnail } from 'native-base';
 import { StackNavigator } from 'react-navigation';
 
@@ -55,19 +55,14 @@ class LoginScreen extends React.Component {
 }
 
 class ReportScreen extends React.Component {
-  constructor() {
-    super();
-    this.state = { hasImage:false };
+  constructor(props) {
+    super(props);
+    this.state = {text: '', building: '', avatarSource:''};
   }
-  state = {building: ''}
   updateUser = (building) => {
      this.setState({ building: building })
   }
   render() {
-    let test = null;
-    if (this.state.hasImage) {
-      test = <Text>It works</Text>
-    }
     return (
       <Container style={styles.container}>
       <Header>
@@ -81,18 +76,22 @@ class ReportScreen extends React.Component {
         <Text>Attach a File</Text>
         </Button>
         <Text>Description</Text>
-        <Input/>
+        <TextInput
+          onChangeText={(text) => this.setState({text})}/>
+        <Text style={{padding: 10, fontSize: 42}}>
+        {this.state.avatarSource.source}
+</Text>
         <Text>Phone Number</Text>
         <Input/>
-        <Text>{this.state.myText}</Text>
-        {test}
+        <Text>Building</Text>
+        <Input/>
         </Content>
       </Container>
     )
   }
 
 upload = () => {
-    ImagePicker.showImagePicker(options, (response) => {
+    ImagePicker.showImagePicker((response) => {
     console.log('Response = ', response);
 
     if (response.didCancel) {
@@ -105,11 +104,10 @@ upload = () => {
       console.log('User tapped custom button: ', response.customButton);
     }
     else {
-      let source = { uri: response.uri };
-      console.log(source);
+      //let source = { uri: response.uri };
+      //console.log(source);
       // You can also display the image using data:
-      // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
+       let source = { uri: 'data:image/jpeg;base64,' + response.data };
       this.setState({
         avatarSource: source
       });
