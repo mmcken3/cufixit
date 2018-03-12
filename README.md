@@ -18,7 +18,7 @@ the building and type of issue who to contact and will email the contact for tha
 
 # CUFixIt API
 
-This api is accessible through Amazon ECS at http://34.204.172.63:8002/.
+This api is accessible through Amazon ECS at http://[IP Address]:8002/. This was hosted on Amazon ECS for the CUHackIT but has since been taken down. You can always test running it locally using Docker.
 
 HTTP request | Description
 ------------ | ------------- 
