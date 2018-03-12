@@ -84,8 +84,8 @@ class ReportScreen extends React.Component {
       keyPrefix: "uploads/",
       bucket: "cufixit-images",
       region: "us-east-1",
-      accessKey: "AKIAIBGZ7GOBX46RSJ5A",
-      secretKey: "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",
+      accessKey: "[AWS KEY HERE]",
+      secretKey: "[AWS KEY HERE]",
       successActionStatus: 201
     }
     RNS3.put(file, options).then(response => {
@@ -93,7 +93,7 @@ class ReportScreen extends React.Component {
         throw new Error("Failed to upload image to S3");
       else {
       this.setState({image_url: response.body.postResponse.location});
-      fetch('http://54.211.84.167:8002/v1/submit', {
+      fetch('http://[HOST IP ADDRESS HERE]:8002/v1/submit', {
             method: 'POST',
             headers: {
               Accept: 'application/json',
